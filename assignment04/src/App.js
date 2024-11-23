@@ -6,17 +6,34 @@ import Col from "react-bootstrap/Col";
 import Result from "./components/Result";
 import Name from "./components/Name";
 import Select from "./components/Select";
+import { useState } from "react";
 
 // import database
 import { animals } from "./assets/AnimalsDb";
 
 function App() {
+
+  const [currentAnimal, setCurrentAnimal] = useState(
+    animals[Math.floor(Math.random()* animals.length)]
+  );
+
+  const [result, setResult] = useState("");
+  
+  const selection = (selectedAnimal) => {
+    if (selectedAnimal === currentAnimal.name) {
+      setResult("Win");
+    }
+    else {
+      setResult("Lose");
+    }
+  }
+
   return (
     <div className="App">
       <br />
 
       <h1>
-        <span className='component-border'>
+        <span  style={{ color: "#b45a10", height: "10px"}}>
           Animal Matching Game
         </span>
       </h1>
@@ -25,9 +42,9 @@ function App() {
 
       <Container>
         <Row>
-          <Col xs={3}><div className='component-border'><Result/></div></Col>
-          <Col xs={3}><div className='component-border'><Name/></div></Col>
-          <Col><div className='component-border'><Select animals={animals}/></div></Col>
+          <Col xs={3}><div className='component-border'><Result result={result}/></div></Col>
+          <Col xs={3}><div className='component-border'><Name name={currentAnimal.name}/></div></Col>
+          <Col><div className='component-border'><Select animals={animals} selection={selection}/></div></Col>
         </Row>
       </Container>
     </div>
